@@ -40,3 +40,16 @@ pub fn add_edge_both[A](self : Graph[A], a : Int, b : Int) -> Unit {
 pub fn node_count[A](self : Graph[A]) -> Int {
   self.datas.length()
 }
+
+///|
+pub fn zip_with[A](self : Graph[A], iter : Iter[Int]) -> Iter2[Int, A] {
+  Iter2::new(fn(yield_) {
+    let datas = self.datas
+    iter.run(fn(id) { yield_(id, datas[id]) })
+  })
+}
+
+///|
+pub fn dfs[A](self : Graph[A]) -> Dfs[A] {
+  Dfs::on(self)
+}
