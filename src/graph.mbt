@@ -53,3 +53,8 @@ pub fn zip_with[A](self : Graph[A], iter : Iter[Int]) -> Iter2[Int, A] {
 pub fn dfs[A](self : Graph[A]) -> Dfs[A] {
   Dfs::on(self)
 }
+
+///|
+pub fn bfs[A](self : Graph[A]) -> Bfs[A] {
+  Bfs::on(self)
+}
