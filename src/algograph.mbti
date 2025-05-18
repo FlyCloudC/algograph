@@ -1,0 +1,61 @@
+package "FlyCloudC/algograph"
+
+// Values
+fn add_edge[A](Graph[A], Int, Int) -> Unit
+
+fn add_edge_undirected[A](Graph[A], Int, Int) -> Unit
+
+fn bfs[A](Graph[A]) -> Bfs[A]
+
+fn data[A](Graph[A], Int) -> A
+
+fn dfs[A](Graph[A]) -> Dfs[A]
+
+fn has_edge[A](Graph[A], Int, Int) -> Bool
+
+fn node_count[A](Graph[A]) -> Int
+
+fn push[A](Graph[A], A) -> Int
+
+fn remove_edge[A](Graph[A], Int, Int) -> Bool
+
+fn zip_with[A](Graph[A], Iter[Int]) -> Iter2[Int, A]
+
+// Types and methods
+type Bfs[A]
+impl Bfs {
+  at[A](Self[A], Int) -> Iter[Int]
+  at_all[A](Self[A]) -> Iter[Int]
+  on[A](Graph[A]) -> Self[A]
+  visited[A](Self[A], Int) -> Bool
+}
+
+type Dfs[A]
+impl Dfs {
+  at[A](Self[A], Int) -> Iter[Int]
+  at_all[A](Self[A]) -> Iter[Int]
+  on[A](Graph[A]) -> Self[A]
+  visited[A](Self[A], Int) -> Bool
+}
+
+type Graph[A]
+impl Graph {
+  add_edge[A](Self[A], Int, Int) -> Unit
+  add_edge_undirected[A](Self[A], Int, Int) -> Unit
+  bfs[A](Self[A]) -> Bfs[A]
+  data[A](Self[A], Int) -> A
+  dfs[A](Self[A]) -> Dfs[A]
+  from_datas[A](Array[A]) -> Self[A]
+  has_edge[A](Self[A], Int, Int) -> Bool
+  make[A](Int, A) -> Self[A]
+  new[A](capacity~ : Int = ..) -> Self[A]
+  node_count[A](Self[A]) -> Int
+  push[A](Self[A], A) -> Int
+  remove_edge[A](Self[A], Int, Int) -> Bool
+  zip_with[A](Self[A], Iter[Int]) -> Iter2[Int, A]
+}
+
+// Type aliases
+
+// Traits
+
