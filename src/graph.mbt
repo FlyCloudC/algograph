@@ -31,7 +31,7 @@ pub fn add_edge[A](self : Graph[A], from : Int, to : Int) -> Unit {
 }
 
 ///| require: id is valid
-pub fn add_edge_both[A](self : Graph[A], a : Int, b : Int) -> Unit {
+pub fn add_edge_undirected[A](self : Graph[A], a : Int, b : Int) -> Unit {
   self.add_edge(a, b)
   self.add_edge(b, a)
 }
