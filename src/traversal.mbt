@@ -25,9 +25,8 @@ pub fn Dfs::at[A](self : Dfs[A], start : Int) -> Iter[Int] {
     }
     while st.pop() is Some(cur) {
       guard yield_(cur) is IterContinue else {
-        while st.pop() is Some(node_id) {
-          vis[node_id] = false
-        }
+        st.each(fn(id) { vis[id] = false })
+        st.clear()
         return IterEnd
       }
       for next in edges[cur] {
@@ -138,9 +137,8 @@ pub fn Bfs::at[A](self : Bfs[A], start : Int) -> Iter[Int] {
     }
     while dq.pop_back() is Some(cur) {
       guard yield_(cur) is IterContinue else {
-        while dq.pop_front() is Some(node_id) {
-          vis[node_id] = false
-        }
+        dq.each(fn(id) { vis[id] = false })
+        dq.clear()
         return IterEnd
       }
       for next in edges[cur] {
@@ -164,7 +162,7 @@ pub fn Bfs::at_all[A](self : Bfs[A]) -> Iter[Int] {
         vis[start] = true
       }
       while dq.pop_back() is Some(cur) {
-        // No need to clear st and restore vis
+        // No need to clear dq and restore vis
         guard yield_(cur) is IterContinue else { return IterEnd }
         for next in edges[cur] {
           if not(vis[next]) {
