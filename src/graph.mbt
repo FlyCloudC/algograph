@@ -37,6 +37,23 @@ pub fn add_edge_both[A](self : Graph[A], a : Int, b : Int) -> Unit {
 }
 
 ///|
+pub fn has_edge[A](self : Graph[A], a : Int, b : Int) -> Bool {
+  self.edges[a].search(b) is Some(_)
+}
+
+///|
+pub fn remove_edge[A](self : Graph[A], a : Int, b : Int) -> Bool {
+  let ed = self.edges[a]
+  match ed.search(b) {
+    Some(index) => {
+      ed.remove(index) |> ignore
+      true
+    }
+    None => false
+  }
+}
+
+///|
 pub fn node_count[A](self : Graph[A]) -> Int {
   self.datas.length()
 }
