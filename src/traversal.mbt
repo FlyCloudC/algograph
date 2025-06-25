@@ -6,18 +6,18 @@ struct Dfs[A] {
 }
 
 ///|
-pub fn Dfs::on[A](graph : Graph[A]) -> Dfs[A] {
+pub fn[A] Dfs::on(graph : Graph[A]) -> Dfs[A] {
   { graph, stack: [], visited: FixedArray::make(graph.node_count(), false) }
 }
 
 ///|
-pub fn Dfs::visited[A](self : Dfs[A], id : Int) -> Bool {
+pub fn[A] Dfs::visited(self : Dfs[A], id : Int) -> Bool {
   self.visited[id]
 }
 
 ///|
-pub fn Dfs::at[A](self : Dfs[A], start : Int) -> Iter[Int] {
-  Iter::new(fn(yield_) {
+pub fn[A] Dfs::at(self : Dfs[A], start : Int) -> Iter[Int] {
+  Iter::new(yield_ => {
     let { graph: { edges, .. }, stack: st, visited: vis } = self
     if not(vis[start]) {
       st.push(start)
@@ -25,7 +25,7 @@ pub fn Dfs::at[A](self : Dfs[A], start : Int) -> Iter[Int] {
     }
     while st.pop() is Some(cur) {
       guard yield_(cur) is IterContinue else {
-        st.each(fn(id) { vis[id] = false })
+        st.each(id => vis[id] = false)
         st.clear()
         return IterEnd
       }
@@ -41,8 +41,8 @@ pub fn Dfs::at[A](self : Dfs[A], start : Int) -> Iter[Int] {
 }
 
 ///|
-pub fn Dfs::at_all[A](self : Dfs[A]) -> Iter[Int] {
-  Iter::new(fn(yield_) {
+pub fn[A] Dfs::at_all(self : Dfs[A]) -> Iter[Int] {
+  Iter::new(yield_ => {
     let { graph: { edges, .. }, stack: st, visited: vis } = self
     for start in 0..<edges.length() {
       if not(vis[start]) {
@@ -71,7 +71,7 @@ test "dfs all" {
   for e in edges {
     g.add_edge(e.0, e.1)
   }
-  inspect!(g.dfs().at_all(), content="[0, 2, 3, 1, 4]")
+  inspect(g.dfs().at_all(), content="[0, 2, 3, 1, 4]")
 }
 
 ///|
@@ -82,13 +82,13 @@ test "dfs at vis" {
     g.add_edge(e.0, e.1)
   }
   let d = g.dfs()
-  inspect!(d.at(2), content="[2, 3, 1]")
+  inspect(d.at(2), content="[2, 3, 1]")
   let nodes = (0).until(5)
-  inspect!(nodes.map(d.visited(_)), content="[false, true, true, true, false]")
-  inspect!(d.at(1), content="[]")
-  inspect!(nodes.map(d.visited(_)), content="[false, true, true, true, false]")
-  inspect!(d.at(0), content="[0]")
-  inspect!(nodes.map(d.visited(_)), content="[true, true, true, true, false]")
+  inspect(nodes.map(d.visited(_)), content="[false, true, true, true, false]")
+  inspect(d.at(1), content="[]")
+  inspect(nodes.map(d.visited(_)), content="[false, true, true, true, false]")
+  inspect(d.at(0), content="[0]")
+  inspect(nodes.map(d.visited(_)), content="[true, true, true, true, false]")
 }
 
 ///|
@@ -100,10 +100,10 @@ test "dfs break" {
   }
   let d = g.dfs()
   let nodes = (0).until(5)
-  inspect!(d.at(0).take_while(fn(x) { x != 3 }), content="[0, 2]")
-  inspect!(nodes.map(d.visited(_)), content="[true, false, true, true, false]")
-  inspect!(d.at_all(), content="[1, 4]")
-  inspect!(nodes.map(d.visited(_)), content="[true, true, true, true, true]")
+  inspect(d.at(0).take_while(x => x != 3), content="[0, 2]")
+  inspect(nodes.map(d.visited(_)), content="[true, false, true, true, false]")
+  inspect(d.at_all(), content="[1, 4]")
+  inspect(nodes.map(d.visited(_)), content="[true, true, true, true, true]")
 }
 
 ///|
@@ -114,7 +114,7 @@ struct Bfs[A] {
 }
 
 ///|
-pub fn Bfs::on[A](graph : Graph[A]) -> Bfs[A] {
+pub fn[A] Bfs::on(graph : Graph[A]) -> Bfs[A] {
   {
     graph,
     deque: @deque.new(),
@@ -123,13 +123,13 @@ pub fn Bfs::on[A](graph : Graph[A]) -> Bfs[A] {
 }
 
 ///|
-pub fn Bfs::visited[A](self : Bfs[A], id : Int) -> Bool {
+pub fn[A] Bfs::visited(self : Bfs[A], id : Int) -> Bool {
   self.visited[id]
 }
 
 ///|
-pub fn Bfs::at[A](self : Bfs[A], start : Int) -> Iter[Int] {
-  Iter::new(fn(yield_) {
+pub fn[A] Bfs::at(self : Bfs[A], start : Int) -> Iter[Int] {
+  Iter::new(yield_ => {
     let { graph: { edges, .. }, deque: dq, visited: vis } = self
     if not(vis[start]) {
       dq.push_front(start)
@@ -137,7 +137,7 @@ pub fn Bfs::at[A](self : Bfs[A], start : Int) -> Iter[Int] {
     }
     while dq.pop_back() is Some(cur) {
       guard yield_(cur) is IterContinue else {
-        dq.each(fn(id) { vis[id] = false })
+        dq.each(id => vis[id] = false)
         dq.clear()
         return IterEnd
       }
@@ -153,8 +153,8 @@ pub fn Bfs::at[A](self : Bfs[A], start : Int) -> Iter[Int] {
 }
 
 ///|
-pub fn Bfs::at_all[A](self : Bfs[A]) -> Iter[Int] {
-  Iter::new(fn(yield_) {
+pub fn[A] Bfs::at_all(self : Bfs[A]) -> Iter[Int] {
+  Iter::new(yield_ => {
     let { graph: { edges, .. }, deque: dq, visited: vis } = self
     for start in 0..<edges.length() {
       if not(vis[start]) {
@@ -183,7 +183,7 @@ test "bfs all" {
   for e in edges {
     g.add_edge(e.0, e.1)
   }
-  inspect!(g.bfs().at_all(), content="[0, 1, 2, 3, 4]")
+  inspect(g.bfs().at_all(), content="[0, 1, 2, 3, 4]")
 }
 
 ///|
@@ -194,13 +194,13 @@ test "bfs at vis" {
     g.add_edge(e.0, e.1)
   }
   let d = g.bfs()
-  inspect!(d.at(2), content="[2, 3, 1]")
+  inspect(d.at(2), content="[2, 3, 1]")
   let nodes = (0).until(5)
-  inspect!(nodes.map(d.visited(_)), content="[false, true, true, true, false]")
-  inspect!(d.at(1), content="[]")
-  inspect!(nodes.map(d.visited(_)), content="[false, true, true, true, false]")
-  inspect!(d.at(0), content="[0]")
-  inspect!(nodes.map(d.visited(_)), content="[true, true, true, true, false]")
+  inspect(nodes.map(d.visited(_)), content="[false, true, true, true, false]")
+  inspect(d.at(1), content="[]")
+  inspect(nodes.map(d.visited(_)), content="[false, true, true, true, false]")
+  inspect(d.at(0), content="[0]")
+  inspect(nodes.map(d.visited(_)), content="[true, true, true, true, false]")
 }
 
 ///|
@@ -212,8 +212,8 @@ test "bfs break" {
   }
   let d = g.bfs()
   let nodes = (0).until(5)
-  inspect!(d.at(0).take_while(fn(x) { x != 2 }), content="[0, 1]")
-  inspect!(nodes.map(d.visited(_)), content="[true, true, true, false, false]")
-  inspect!(d.at_all(), content="[3, 4]")
-  inspect!(nodes.map(d.visited(_)), content="[true, true, true, true, true]")
+  inspect(d.at(0).take_while(x => x != 2), content="[0, 1]")
+  inspect(nodes.map(d.visited(_)), content="[true, true, true, false, false]")
+  inspect(d.at_all(), content="[3, 4]")
+  inspect(nodes.map(d.visited(_)), content="[true, true, true, true, true]")
 }
